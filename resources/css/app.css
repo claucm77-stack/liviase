@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --liviase-teal: #4c8d93;
+    --liviase-teal-dark: #3c747a;
+    --liviase-yellow: #ffca55;
+    --liviase-navy: #193760;
+    --liviase-ink: #2c3a3a;
+    --liviase-muted: #7a7a7a;
+    --liviase-border: #d8dede;
+    --liviase-surface-alt: #f7f7f6;
+}
+
+body {
+    color: var(--liviase-ink);
+}
+
+.liviase-shell {
+    background: var(--liviase-surface-alt);
+}
+
+.liviase-card {
+    background: #ffffff;
+    border: 1px solid var(--liviase-border);
+    border-radius: 8px;
+    box-shadow: 0 12px 28px rgba(44, 58, 58, 0.08);
+}
+
+.liviase-brand-mark {
+    display: inline-flex;
+    height: 48px;
+    width: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--liviase-teal);
+    color: #ffffff;
+    font-weight: 900;
+}
+
+.liviase-brand-text {
+    color: var(--liviase-teal-dark);
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+.liviase-nav {
+    background: var(--liviase-teal);
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(25, 55, 96, 0.16);
+}
+
+.liviase-nav a,
+.admin-shell a.text-blue-700 {
+    color: var(--liviase-teal-dark);
+    font-weight: 700;
+}
+
+.liviase-nav a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.admin-shell .text-blue-700,
+.admin-shell .hover\:underline:hover {
+    color: var(--liviase-teal-dark);
+}
+
+.admin-shell .bg-blue-700,
+.admin-shell .hover\:bg-blue-800:hover,
+.auth-shell .bg-gray-800,
+.auth-shell .hover\:bg-gray-700:hover,
+.app-shell .bg-gray-800,
+.app-shell .hover\:bg-gray-700:hover {
+    background-color: var(--liviase-teal) !important;
+}
+
+.admin-shell .border,
+.admin-shell .border-gray-200,
+.admin-shell .border-gray-300,
+.auth-shell .border-gray-300,
+.app-shell .border-gray-300 {
+    border-color: var(--liviase-border) !important;
+}
+
+.admin-shell input,
+.admin-shell select,
+.admin-shell textarea,
+.auth-shell input,
+.app-shell input,
+.app-shell select,
+.app-shell textarea {
+    border-radius: 8px;
+}
+
+.admin-shell input:focus,
+.admin-shell select:focus,
+.admin-shell textarea:focus,
+.auth-shell input:focus,
+.app-shell input:focus,
+.app-shell select:focus,
+.app-shell textarea:focus {
+    border-color: var(--liviase-teal) !important;
+    box-shadow: 0 0 0 3px rgba(76, 141, 147, 0.18) !important;
+}
