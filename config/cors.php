@@ -25,7 +25,7 @@ return [
 
     'allowed_origins' => explode(',', env(
         'CORS_ALLOWED_ORIGINS',
-        'http://localhost:3000,http://localhost:4200,http://localhost:8080'
+        'http://liviase.sanmartin.edu.co,http://localhost:3000,http://localhost:4200,http://localhost:8080'
     )),
 
     'allowed_origins_patterns' => [],
