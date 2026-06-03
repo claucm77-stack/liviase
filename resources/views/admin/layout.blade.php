@@ -7,50 +7,52 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="admin-shell liviase-shell text-gray-900 min-h-screen">
-    <header class="liviase-nav">
+    <header class="liviase-nav sanmartin-admin-header">
         <div class="sanmartin-stripes" aria-hidden="true">
             <span class="sanmartin-stripe sanmartin-stripe-green"></span>
             <span class="sanmartin-stripe sanmartin-stripe-gold"></span>
             <span class="sanmartin-stripe sanmartin-stripe-green sanmartin-stripe-green-small"></span>
         </div>
-        <div class="sanmartin-header-inner max-w-6xl mx-auto px-4 py-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div class="sanmartin-header-brand flex items-center">
-                <div>
+        <div class="sanmartin-header-inner max-w-6xl mx-auto px-4 py-4">
+            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div class="sanmartin-header-brand">
                     <img
                         src="{{ asset('images/institutional/san_martin_logo_white.png') }}"
                         alt="Fundación Universitaria San Martín"
                         class="sanmartin-nav-logo"
                     >
-                    <h1 class="text-xl font-black">Administrador de Plataforma</h1>
+                    <h1 class="text-2xl font-black leading-tight">Administrador de Plataforma</h1>
                 </div>
-            </div>
-            <div class="flex flex-col gap-3 sm:items-end">
-                <nav class="flex flex-wrap items-center justify-start gap-2 text-sm sm:justify-end">
-                    @if (auth()->user()?->isAdmin())
-                        <a href="{{ route('admin.users.index') }}" class="rounded-md px-3 py-2 hover:bg-white/15">Usuarios</a>
-                        <a href="{{ route('admin.microbusiness-fields.index') }}" class="rounded-md px-3 py-2 hover:bg-white/15">Campos</a>
-                        <a href="{{ route('admin.microbusinesses.index') }}" class="rounded-md px-3 py-2 hover:bg-white/15">Micronegocios</a>
-                        <a href="{{ route('admin.contents.index') }}" class="rounded-md px-3 py-2 hover:bg-white/15">Contenidos</a>
-                        <a href="{{ route('admin.logs.index') }}" class="rounded-md px-3 py-2 hover:bg-white/15">Logs</a>
-                        <a href="{{ route('admin.settings.edit') }}" class="rounded-md px-3 py-2 hover:bg-white/15">Configuración</a>
-                    @endif
-                    <a href="{{ route('dashboard') }}" class="rounded-md px-3 py-2 hover:bg-white/15">Dashboard</a>
-                </nav>
+                <div>
+                    <div class="flex flex-col gap-3 lg:items-end">
+                        <nav class="sanmartin-admin-nav flex flex-wrap items-center justify-start gap-2 text-sm lg:justify-end">
+                            @if (auth()->user()?->isAdmin())
+                                <a href="{{ route('admin.users.index') }}">Usuarios</a>
+                                <a href="{{ route('admin.microbusiness-fields.index') }}">Campos</a>
+                                <a href="{{ route('admin.microbusinesses.index') }}">Micronegocios</a>
+                                <a href="{{ route('admin.contents.index') }}">Contenidos</a>
+                                <a href="{{ route('admin.logs.index') }}">Logs</a>
+                                <a href="{{ route('admin.settings.edit') }}">Configuración</a>
+                            @endif
+                            <a href="{{ route('dashboard') }}">Dashboard</a>
+                        </nav>
 
-                @auth
-                    <form method="POST" action="{{ route('logout') }}" class="m-0 flex items-center gap-3">
-                        @csrf
-                        <span class="hidden text-xs font-semibold text-white/75 sm:inline">
-                            {{ auth()->user()->name ?: auth()->user()->email }}
-                        </span>
-                        <button
-                            type="submit"
-                            class="rounded-md border border-white/40 bg-white/15 px-3 py-2 text-sm font-bold text-white shadow-sm hover:bg-white/25"
-                        >
-                            Cerrar sesión
-                        </button>
-                    </form>
-                @endauth
+                        @auth
+                            <form method="POST" action="{{ route('logout') }}" class="m-0 flex items-center gap-3">
+                                @csrf
+                                <span class="hidden text-xs font-semibold text-white/80 sm:inline">
+                                    {{ auth()->user()->name ?: auth()->user()->email }}
+                                </span>
+                                <button
+                                    type="submit"
+                                    class="rounded-md border border-white/40 bg-white/15 px-3 py-2 text-sm font-bold text-white shadow-sm hover:bg-white/25"
+                                >
+                                    Cerrar sesión
+                                </button>
+                            </form>
+                        @endauth
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -75,5 +77,12 @@
 
         @yield('content')
     </main>
+    <footer class="sanmartin-admin-footer">
+        <img
+            src="{{ asset('images/institutional/san_martin_signature.png') }}"
+            alt="Firma institucional Fundación Universitaria San Martín"
+            class="sanmartin-footer-signature"
+        >
+    </footer>
 </body>
 </html>
