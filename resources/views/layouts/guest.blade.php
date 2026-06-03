@@ -15,7 +15,19 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="auth-shell font-sans text-gray-900 antialiased">
-        <div class="liviase-shell min-h-screen flex flex-col sm:justify-center items-center px-5 pt-6 sm:pt-0">
+        <div class="liviase-shell min-h-screen flex flex-col sm:justify-center items-center px-5 pt-20 pb-20 sm:pt-24 sm:pb-24">
+            <img
+                src="{{ asset('images/institutional/san_martin_pattern_horizontal.png') }}"
+                alt=""
+                class="sanmartin-login-pattern sanmartin-login-pattern-top"
+                aria-hidden="true"
+            >
+            <img
+                src="{{ asset('images/institutional/san_martin_pattern_horizontal.png') }}"
+                alt=""
+                class="sanmartin-login-pattern sanmartin-login-pattern-bottom"
+                aria-hidden="true"
+            >
             <div class="text-center sanmartin-auth-brand">
                 <a href="/">
                     <img

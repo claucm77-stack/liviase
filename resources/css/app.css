@@ -70,31 +70,33 @@ body {
     border-bottom: 4px solid rgba(243, 206, 0, 0.9);
 }
 
-.auth-shell .liviase-shell::before,
-.auth-shell .liviase-shell::after {
-    content: "";
+.auth-shell .liviase-shell {
+    position: relative;
+    overflow: hidden;
+}
+
+.sanmartin-login-pattern {
     position: fixed;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 56px;
+    object-fit: cover;
     pointer-events: none;
 }
 
-.auth-shell .liviase-shell::before {
+.sanmartin-login-pattern-top {
     top: 0;
-    right: 0;
-    width: 118px;
-    height: 118px;
-    background: linear-gradient(135deg, transparent 0 42%, var(--sanmartin-gold) 43% 58%, transparent 59%);
-    opacity: 0.98;
 }
 
-.auth-shell .liviase-shell::after {
-    top: 0;
-    right: 24px;
-    width: 84px;
-    height: 128px;
-    border-right: 7px solid var(--sanmartin-gold);
-    border-left: 7px solid #3e8f95;
-    transform: rotate(45deg);
-    opacity: 0.9;
+.sanmartin-login-pattern-bottom {
+    bottom: 0;
+}
+
+.sanmartin-auth-brand,
+.auth-shell .liviase-card {
+    position: relative;
+    z-index: 1;
 }
 
 .sanmartin-stripes {
