@@ -79,7 +79,7 @@
     </main>
     <footer class="sanmartin-admin-footer">
         <img
-            src="{{ asset('images/institutional/san_martin_signature.png') }}"
+            src="{{ asset('images/institutional/san_martin_footer.png') }}"
             alt="Firma institucional Fundación Universitaria San Martín"
             class="sanmartin-footer-signature"
         >
