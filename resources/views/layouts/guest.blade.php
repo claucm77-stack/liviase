@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'Livi@se') }} | San Martín</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -16,12 +16,25 @@
     </head>
     <body class="auth-shell font-sans text-gray-900 antialiased">
         <div class="liviase-shell min-h-screen flex flex-col sm:justify-center items-center px-5 pt-6 sm:pt-0">
-            <div class="text-center">
+            <div class="text-center sanmartin-auth-brand">
                 <a href="/">
-                    <span class="liviase-brand-mark mx-auto">L@</span>
+                    <img
+                        src="{{ asset('images/institutional/san_martin_logo.png') }}"
+                        alt="Fundación Universitaria San Martín"
+                        class="sanmartin-auth-logo mx-auto"
+                    >
                 </a>
-                <h1 class="liviase-brand-text mt-3 text-4xl">Livi@se</h1>
-                <p class="mt-2 max-w-sm text-sm text-gray-600">Acompañamiento académico y empresarial para microempresarios.</p>
+                <div class="mt-4 flex items-center justify-center gap-3">
+                    <img
+                        src="{{ asset('images/institutional/san_martin_shield.jpg') }}"
+                        alt="Escudo Fundación Universitaria San Martín"
+                        class="sanmartin-shield"
+                    >
+                    <div class="text-left">
+                        <h1 class="liviase-brand-text text-4xl leading-none">Livi@se</h1>
+                        <p class="mt-1 max-w-sm text-sm text-gray-600">Acompañamiento académico y empresarial para microempresarios.</p>
+                    </div>
+                </div>
             </div>
 
             <div class="liviase-card w-full sm:max-w-md mt-6 px-6 py-5 overflow-hidden">

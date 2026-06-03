@@ -3,16 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin</title>
+    <title>Livi@se | Panel San Martín</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="admin-shell liviase-shell text-gray-900 min-h-screen">
     <header class="liviase-nav">
         <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex items-center gap-3">
-                <span class="liviase-brand-mark bg-white/20">L@</span>
+                <img
+                    src="{{ asset('images/institutional/san_martin_shield.jpg') }}"
+                    alt="Escudo Fundación Universitaria San Martín"
+                    class="sanmartin-nav-shield"
+                >
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wide text-white/80">Livi@se</p>
+                    <img
+                        src="{{ asset('images/institutional/san_martin_logo_white.png') }}"
+                        alt="Fundación Universitaria San Martín"
+                        class="sanmartin-nav-logo"
+                    >
                     <h1 class="text-xl font-black">Administrador de Plataforma</h1>
                 </div>
             </div>

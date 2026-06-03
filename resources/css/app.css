@@ -7,6 +7,8 @@
     --liviase-teal-dark: #3c747a;
     --liviase-yellow: #ffca55;
     --liviase-navy: #193760;
+    --sanmartin-teal: #2d777d;
+    --sanmartin-gold: #f3ce00;
     --liviase-ink: #2c3a3a;
     --liviase-muted: #7a7a7a;
     --liviase-border: #d8dede;
@@ -47,9 +49,49 @@ body {
 }
 
 .liviase-nav {
-    background: var(--liviase-teal);
+    background: var(--sanmartin-teal);
     color: #ffffff;
     box-shadow: 0 8px 20px rgba(25, 55, 96, 0.16);
+}
+
+.liviase-nav::after,
+.auth-shell .liviase-shell::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 88px;
+    height: 88px;
+    background: linear-gradient(135deg, transparent 0 48%, var(--sanmartin-gold) 49% 70%, #ffffff 71%);
+    opacity: 0.95;
+    pointer-events: none;
+}
+
+.sanmartin-auth-logo {
+    width: min(280px, 78vw);
+    height: auto;
+}
+
+.sanmartin-shield {
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.sanmartin-nav-logo {
+    width: 180px;
+    height: auto;
+    object-fit: contain;
+}
+
+.sanmartin-nav-shield {
+    width: 54px;
+    height: 54px;
+    border-radius: 8px;
+    object-fit: contain;
+    background: #ffffff;
+    padding: 4px;
 }
 
 .liviase-nav a,
