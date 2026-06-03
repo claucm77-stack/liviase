@@ -194,14 +194,16 @@ body {
 .sanmartin-footer-signature {
     display: block;
     width: 100%;
-    min-height: 92px;
+    min-height: 46px;
+    max-height: 64px;
     object-fit: cover;
     object-position: center;
 }
 
 @media (max-width: 640px) {
     .sanmartin-footer-signature {
-        min-height: 126px;
+        min-height: 64px;
+        max-height: 76px;
         object-fit: cover;
     }
 }
