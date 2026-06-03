@@ -165,17 +165,16 @@ body {
 .sanmartin-footer-signature {
     display: block;
     width: 100%;
-    min-height: 58px;
-    max-height: 82px;
-    object-fit: cover;
+    height: auto;
+    aspect-ratio: 1366 / 119;
+    object-fit: contain;
     object-position: center;
 }
 
 @media (max-width: 640px) {
     .sanmartin-footer-signature {
-        min-height: 76px;
-        max-height: 96px;
-        object-fit: cover;
+        aspect-ratio: 1366 / 119;
+        object-fit: contain;
     }
 }
 
