@@ -56,8 +56,6 @@ body {
     box-shadow: 0 8px 20px rgba(25, 55, 96, 0.16);
 }
 
-.liviase-nav::before,
-.liviase-nav::after,
 .auth-shell .liviase-shell::before,
 .auth-shell .liviase-shell::after {
     content: "";
@@ -65,26 +63,66 @@ body {
     pointer-events: none;
 }
 
-.liviase-nav::before,
 .auth-shell .liviase-shell::before {
     top: 0;
     right: 0;
-    width: 112px;
-    height: 112px;
-    background: linear-gradient(135deg, transparent 0 45%, var(--sanmartin-gold) 46% 64%, var(--sanmartin-teal) 65% 72%, transparent 73%);
+    width: 118px;
+    height: 118px;
+    background: linear-gradient(135deg, transparent 0 42%, var(--sanmartin-gold) 43% 58%, transparent 59%);
     opacity: 0.98;
 }
 
-.liviase-nav::after,
 .auth-shell .liviase-shell::after {
     top: 0;
-    right: 28px;
-    width: 76px;
-    height: 132px;
-    border-right: 8px solid var(--sanmartin-gold);
-    border-left: 8px solid #3e8f95;
+    right: 24px;
+    width: 84px;
+    height: 128px;
+    border-right: 7px solid var(--sanmartin-gold);
+    border-left: 7px solid #3e8f95;
     transform: rotate(45deg);
     opacity: 0.9;
+}
+
+.sanmartin-stripes {
+    position: absolute;
+    top: 0;
+    right: -10px;
+    width: 150px;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.sanmartin-stripe {
+    position: absolute;
+    display: block;
+    height: 12px;
+    border-radius: 0;
+    transform: rotate(-45deg);
+    transform-origin: right center;
+}
+
+.sanmartin-stripe-gold {
+    top: 34px;
+    right: -28px;
+    width: 152px;
+    height: 28px;
+    background: var(--sanmartin-gold);
+}
+
+.sanmartin-stripe-green {
+    top: 18px;
+    right: 20px;
+    width: 98px;
+    background: #68a9b0;
+}
+
+.sanmartin-stripe-green-small {
+    top: 62px;
+    right: 12px;
+    width: 58px;
+    height: 8px;
+    background: var(--sanmartin-teal);
 }
 
 .sanmartin-header-inner {
@@ -109,23 +147,8 @@ body {
 }
 
 .sanmartin-nav-logo {
-    width: 120px;
+    width: min(250px, 58vw);
     height: auto;
-    object-fit: contain;
-}
-
-.sanmartin-monogram {
-    display: block;
-    color: var(--sanmartin-gold);
-    font-size: 32px;
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: 0;
-}
-
-.sanmartin-nav-shield {
-    width: 54px;
-    height: 54px;
     object-fit: contain;
 }
 

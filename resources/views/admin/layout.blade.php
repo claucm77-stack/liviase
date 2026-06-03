@@ -8,15 +8,19 @@
 </head>
 <body class="admin-shell liviase-shell text-gray-900 min-h-screen">
     <header class="liviase-nav">
+        <div class="sanmartin-stripes" aria-hidden="true">
+            <span class="sanmartin-stripe sanmartin-stripe-green"></span>
+            <span class="sanmartin-stripe sanmartin-stripe-gold"></span>
+            <span class="sanmartin-stripe sanmartin-stripe-green sanmartin-stripe-green-small"></span>
+        </div>
         <div class="sanmartin-header-inner max-w-6xl mx-auto px-4 py-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div class="sanmartin-header-brand flex items-center gap-4">
-                <img
-                    src="{{ asset('images/institutional/san_martin_shield.png') }}"
-                    alt="Escudo Fundación Universitaria San Martín"
-                    class="sanmartin-nav-shield"
-                >
+            <div class="sanmartin-header-brand flex items-center">
                 <div>
-                    <span class="sanmartin-monogram" aria-label="Fundación Universitaria San Martín">NM</span>
+                    <img
+                        src="{{ asset('images/institutional/san_martin_logo_white.png') }}"
+                        alt="Fundación Universitaria San Martín"
+                        class="sanmartin-nav-logo"
+                    >
                     <h1 class="text-xl font-black">Administrador de Plataforma</h1>
                 </div>
             </div>
