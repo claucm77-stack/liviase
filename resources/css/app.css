@@ -99,46 +99,15 @@ body {
     z-index: 1;
 }
 
-.sanmartin-stripes {
+.sanmartin-header-corner {
     position: absolute;
     top: 0;
-    right: -10px;
-    width: 150px;
-    height: 100%;
-    overflow: hidden;
+    right: 0;
+    width: 132px;
+    height: 132px;
+    object-fit: contain;
+    object-position: top right;
     pointer-events: none;
-}
-
-.sanmartin-stripe {
-    position: absolute;
-    display: block;
-    height: 12px;
-    border-radius: 0;
-    transform: rotate(-45deg);
-    transform-origin: right center;
-}
-
-.sanmartin-stripe-gold {
-    top: 34px;
-    right: -28px;
-    width: 152px;
-    height: 28px;
-    background: var(--sanmartin-gold);
-}
-
-.sanmartin-stripe-green {
-    top: 18px;
-    right: 20px;
-    width: 98px;
-    background: #68a9b0;
-}
-
-.sanmartin-stripe-green-small {
-    top: 62px;
-    right: 12px;
-    width: 58px;
-    height: 8px;
-    background: var(--sanmartin-teal);
 }
 
 .sanmartin-header-inner {

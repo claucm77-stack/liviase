@@ -8,11 +8,12 @@
 </head>
 <body class="admin-shell liviase-shell text-gray-900 min-h-screen">
     <header class="liviase-nav sanmartin-admin-header">
-        <div class="sanmartin-stripes" aria-hidden="true">
-            <span class="sanmartin-stripe sanmartin-stripe-green"></span>
-            <span class="sanmartin-stripe sanmartin-stripe-gold"></span>
-            <span class="sanmartin-stripe sanmartin-stripe-green sanmartin-stripe-green-small"></span>
-        </div>
+        <img
+            src="{{ asset('images/institutional/san_martin_header_corner.png') }}"
+            alt=""
+            class="sanmartin-header-corner"
+            aria-hidden="true"
+        >
         <div class="sanmartin-header-inner max-w-6xl mx-auto px-4 py-4">
             <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div class="sanmartin-header-brand">
