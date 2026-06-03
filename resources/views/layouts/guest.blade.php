@@ -26,7 +26,7 @@
                 </a>
                 <div class="mt-4 flex items-center justify-center gap-3">
                     <img
-                        src="{{ asset('images/institutional/san_martin_shield.jpg') }}"
+                        src="{{ asset('images/institutional/san_martin_shield.png') }}"
                         alt="Escudo Fundación Universitaria San Martín"
                         class="sanmartin-shield"
                     >

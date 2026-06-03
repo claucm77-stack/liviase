@@ -11,7 +11,7 @@
         <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex items-center gap-3">
                 <img
-                    src="{{ asset('images/institutional/san_martin_shield.jpg') }}"
+                    src="{{ asset('images/institutional/san_martin_shield.png') }}"
                     alt="Escudo Fundación Universitaria San Martín"
                     class="sanmartin-nav-shield"
                 >
