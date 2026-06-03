@@ -49,22 +49,51 @@ body {
 }
 
 .liviase-nav {
+    position: relative;
+    overflow: hidden;
     background: var(--sanmartin-teal);
     color: #ffffff;
     box-shadow: 0 8px 20px rgba(25, 55, 96, 0.16);
 }
 
+.liviase-nav::before,
 .liviase-nav::after,
+.auth-shell .liviase-shell::before,
 .auth-shell .liviase-shell::after {
     content: "";
     position: fixed;
+    pointer-events: none;
+}
+
+.liviase-nav::before,
+.auth-shell .liviase-shell::before {
     top: 0;
     right: 0;
-    width: 88px;
-    height: 88px;
-    background: linear-gradient(135deg, transparent 0 48%, var(--sanmartin-gold) 49% 70%, #ffffff 71%);
-    opacity: 0.95;
-    pointer-events: none;
+    width: 112px;
+    height: 112px;
+    background: linear-gradient(135deg, transparent 0 45%, var(--sanmartin-gold) 46% 64%, var(--sanmartin-teal) 65% 72%, transparent 73%);
+    opacity: 0.98;
+}
+
+.liviase-nav::after,
+.auth-shell .liviase-shell::after {
+    top: 0;
+    right: 28px;
+    width: 76px;
+    height: 132px;
+    border-right: 8px solid var(--sanmartin-gold);
+    border-left: 8px solid #3e8f95;
+    transform: rotate(45deg);
+    opacity: 0.9;
+}
+
+.sanmartin-header-inner {
+    position: relative;
+    z-index: 1;
+}
+
+.sanmartin-header-brand {
+    min-height: 74px;
 }
 
 .sanmartin-auth-logo {
@@ -80,15 +109,23 @@ body {
 }
 
 .sanmartin-nav-logo {
-    width: 180px;
+    width: 120px;
     height: auto;
     object-fit: contain;
+}
+
+.sanmartin-monogram {
+    display: block;
+    color: var(--sanmartin-gold);
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0;
 }
 
 .sanmartin-nav-shield {
     width: 54px;
     height: 54px;
-    border-radius: 8px;
     object-fit: contain;
 }
 

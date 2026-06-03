@@ -24,17 +24,8 @@
                         class="sanmartin-auth-logo mx-auto"
                     >
                 </a>
-                <div class="mt-4 flex items-center justify-center gap-3">
-                    <img
-                        src="{{ asset('images/institutional/san_martin_shield.png') }}"
-                        alt="Escudo Fundación Universitaria San Martín"
-                        class="sanmartin-shield"
-                    >
-                    <div class="text-left">
-                        <h1 class="liviase-brand-text text-4xl leading-none">Livi@se</h1>
-                        <p class="mt-1 max-w-sm text-sm text-gray-600">Acompañamiento académico y empresarial para microempresarios.</p>
-                    </div>
-                </div>
+                <h1 class="liviase-brand-text mt-4 text-4xl leading-none">Livi@se</h1>
+                <p class="mx-auto mt-2 max-w-sm text-sm text-gray-600">Acompañamiento académico y empresarial para microempresarios.</p>
             </div>
 
             <div class="liviase-card w-full sm:max-w-md mt-6 px-6 py-5 overflow-hidden">
