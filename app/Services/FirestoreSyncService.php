@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Content;
+use App\Models\BusinessEntity;
 use App\Models\Microbusiness;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Firestore;
@@ -74,6 +75,22 @@ class FirestoreSyncService
     public function deleteMicrobusiness(Microbusiness $business): void
     {
         $this->deleteDocument('micronegocios', (string) $business->id);
+    }
+
+    public function syncBusinessEntity(BusinessEntity $entity): void
+    {
+        $this->setDocument('entidades', (string) $entity->id, [
+            'name' => $entity->name,
+            'imageUrl' => $entity->imageUrl(),
+            'mainUrl' => (string) ($entity->main_url ?? ''),
+            'createdAt' => optional($entity->created_at)?->toIso8601String() ?? now()->toIso8601String(),
+            'resources' => $entity->firestoreResources(),
+        ]);
+    }
+
+    public function deleteBusinessEntity(BusinessEntity $entity): void
+    {
+        $this->deleteDocument('entidades', (string) $entity->id);
     }
 
     private function setDocument(string $collection, string $id, array $data): void

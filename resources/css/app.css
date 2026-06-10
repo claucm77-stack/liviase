@@ -68,29 +68,42 @@ body {
 
 .sanmartin-admin-header {
     border-bottom: 4px solid rgba(243, 206, 0, 0.9);
+    min-height: 118px;
 }
 
 .auth-shell .liviase-shell {
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
-.sanmartin-login-pattern {
-    position: fixed;
-    left: 0;
-    z-index: 0;
+.sanmartin-login-pattern-strip {
     width: 100%;
-    height: 56px;
-    object-fit: cover;
+    height: clamp(72px, 9vw, 120px);
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #ffffff;
     pointer-events: none;
 }
 
-.sanmartin-login-pattern-top {
-    top: 0;
+.sanmartin-login-pattern-strip-top {
+    border-bottom: 1px solid rgba(25, 55, 96, 0.08);
 }
 
-.sanmartin-login-pattern-bottom {
-    bottom: 0;
+.sanmartin-login-pattern-strip-bottom {
+    margin-top: auto;
+    border-top: 1px solid rgba(25, 55, 96, 0.08);
+}
+
+.sanmartin-login-pattern {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.sanmartin-auth-main {
+    min-height: 0;
 }
 
 .sanmartin-auth-brand,
@@ -103,8 +116,8 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    width: 132px;
-    height: 132px;
+    width: clamp(84px, 8vw, 124px);
+    height: clamp(84px, 8vw, 124px);
     object-fit: contain;
     object-position: top right;
     pointer-events: none;
@@ -117,8 +130,8 @@ body {
 
 .sanmartin-header-brand {
     display: grid;
-    gap: 8px;
-    min-height: 78px;
+    gap: 6px;
+    min-height: 76px;
     align-content: center;
 }
 
@@ -135,14 +148,15 @@ body {
 }
 
 .sanmartin-nav-logo {
-    width: min(260px, 64vw);
+    width: clamp(190px, 20vw, 275px);
+    max-height: 84px;
     height: auto;
     object-fit: contain;
 }
 
 .sanmartin-admin-nav a {
     border-radius: 8px;
-    padding: 9px 12px;
+    padding: 8px 10px;
     color: #ffffff;
     font-weight: 800;
     line-height: 1;
@@ -160,21 +174,114 @@ body {
     margin-top: auto;
     background: #143658;
     overflow: hidden;
+    color: #ffffff;
 }
 
-.sanmartin-footer-signature {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1366 / 119;
+.sanmartin-footer-inner {
+    display: flex;
+    min-height: 96px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+.sanmartin-footer-logo-link {
+    display: inline-flex;
+    align-items: center;
+}
+
+.sanmartin-footer-logo {
+    width: clamp(180px, 18vw, 250px);
+    max-height: 64px;
     object-fit: contain;
-    object-position: center;
+}
+
+.sanmartin-footer-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    text-align: right;
+}
+
+.sanmartin-footer-meta p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.sanmartin-footer-social {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.sanmartin-footer-social a {
+    display: inline-flex;
+    width: 34px;
+    height: 34px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 999px;
+    color: #ffffff;
+    line-height: 1;
+    text-decoration: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.sanmartin-footer-social img {
+    display: block;
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+.sanmartin-footer-social a:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.85);
+    transform: translateY(-1px);
 }
 
 @media (max-width: 640px) {
-    .sanmartin-footer-signature {
-        aspect-ratio: 1366 / 119;
-        object-fit: contain;
+    .sanmartin-admin-header {
+        min-height: 0;
+    }
+
+    .sanmartin-header-corner {
+        width: 82px;
+        height: 82px;
+        opacity: 0.65;
+    }
+
+    .sanmartin-nav-logo {
+        width: min(220px, 76vw);
+        max-height: 68px;
+    }
+
+    .sanmartin-footer-inner {
+        min-height: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .sanmartin-footer-logo {
+        width: min(220px, 76vw);
+        max-height: 58px;
+    }
+
+    .sanmartin-footer-meta {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .sanmartin-footer-social {
+        justify-content: flex-start;
     }
 }
 

@@ -2,6 +2,7 @@
 
 use App\Constants\Roles;
 use App\Http\Controllers\Admin\AuditLogController;
+use App\Http\Controllers\Admin\BusinessEntityController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\MicrobusinessFieldController;
 use App\Http\Controllers\Admin\MicrobusinessController;
@@ -86,6 +87,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('microbusiness-fields', MicrobusinessFieldController::class)->except(['show']);
         Route::resource('microbusinesses', MicrobusinessController::class)->except(['show']);
         Route::resource('contents', ContentController::class)->except(['show']);
+        Route::resource('entities', BusinessEntityController::class)->except(['show']);
         Route::get('/logs', [AuditLogController::class, 'index'])->name('logs.index');
         Route::get('/settings', [PlatformSettingController::class, 'edit'])->name('settings.edit');
         Route::patch('/settings', [PlatformSettingController::class, 'update'])->name('settings.update');

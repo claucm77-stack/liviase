@@ -14,24 +14,25 @@
             class="sanmartin-header-corner"
             aria-hidden="true"
         >
-        <div class="sanmartin-header-inner max-w-6xl mx-auto px-4 py-4">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div class="sanmartin-header-inner max-w-6xl mx-auto px-4 py-3">
+            <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div class="sanmartin-header-brand">
                     <img
                         src="{{ asset('images/institutional/san_martin_logo_white.png') }}"
                         alt="Fundación Universitaria San Martín"
                         class="sanmartin-nav-logo"
                     >
-                    <h1 class="text-2xl font-black leading-tight">Administrador de Plataforma</h1>
+                    <h1 class="text-lg font-black leading-tight sm:text-xl">Administrador de Plataforma</h1>
                 </div>
                 <div>
-                    <div class="flex flex-col gap-3 lg:items-end">
-                        <nav class="sanmartin-admin-nav flex flex-wrap items-center justify-start gap-2 text-sm lg:justify-end">
+                    <div class="flex flex-col gap-2 md:items-end">
+                        <nav class="sanmartin-admin-nav flex flex-wrap items-center justify-start gap-1 text-sm md:justify-end">
                             @if (auth()->user()?->isAdmin())
                                 <a href="{{ route('admin.users.index') }}">Usuarios</a>
                                 <a href="{{ route('admin.microbusiness-fields.index') }}">Campos</a>
                                 <a href="{{ route('admin.microbusinesses.index') }}">Micronegocios</a>
                                 <a href="{{ route('admin.contents.index') }}">Contenidos</a>
+                                <a href="{{ route('admin.entities.index') }}">Entidades</a>
                                 <a href="{{ route('admin.logs.index') }}">Logs</a>
                                 <a href="{{ route('admin.settings.edit') }}">Configuración</a>
                             @endif
@@ -39,7 +40,7 @@
                         </nav>
 
                         @auth
-                            <form method="POST" action="{{ route('logout') }}" class="m-0 flex items-center gap-3">
+                            <form method="POST" action="{{ route('logout') }}" class="m-0 flex items-center gap-2">
                                 @csrf
                                 <span class="hidden text-xs font-semibold text-white/80 sm:inline">
                                     {{ auth()->user()->name ?: auth()->user()->email }}
@@ -79,11 +80,36 @@
         @yield('content')
     </main>
     <footer class="sanmartin-admin-footer">
-        <img
-            src="{{ asset('images/institutional/san_martin_footer.png') }}"
-            alt="Firma institucional Fundación Universitaria San Martín"
-            class="sanmartin-footer-signature"
-        >
+        <div class="sanmartin-footer-inner max-w-6xl mx-auto px-4">
+            <a href="https://sanmartin.edu.co/" target="_blank" rel="noopener noreferrer" class="sanmartin-footer-logo-link">
+                <img
+                    src="{{ asset('images/institutional/san_martin_logo_white.png') }}"
+                    alt="Fundación Universitaria San Martín"
+                    class="sanmartin-footer-logo"
+                >
+            </a>
+
+            <div class="sanmartin-footer-meta">
+                <div class="sanmartin-footer-social" aria-label="Redes sociales de la Universidad San Martín">
+                    <a href="https://www.facebook.com/USanMartinOficial" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                        <img src="{{ asset('images/institutional/social_facebook_20260604.png') }}" alt="">
+                    </a>
+                    <a href="https://www.instagram.com/usanmartinoficial/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <img src="{{ asset('images/institutional/social_instagram_20260604.png') }}" alt="">
+                    </a>
+                    <a href="https://x.com/USanMartinCO" target="_blank" rel="noopener noreferrer" aria-label="X">
+                        <img src="{{ asset('images/institutional/social_x_20260604.png') }}" alt="">
+                    </a>
+                    <a href="https://www.youtube.com/@USanMartinOficial" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                        <img src="{{ asset('images/institutional/social_youtube_20260604.png') }}" alt="">
+                    </a>
+                    <a href="https://www.linkedin.com/school/fundaci%C3%B3n-universitaria-san-mart%C3%ADn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <img src="{{ asset('images/institutional/social_linkedin_20260604.png') }}" alt="">
+                    </a>
+                </div>
+                <p>&copy; {{ date('Y') }} Fundación Universitaria San Martín</p>
+            </div>
+        </div>
     </footer>
 </body>
 </html>
