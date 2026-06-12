@@ -68,7 +68,7 @@ body {
 
 .sanmartin-admin-header {
     border-bottom: 4px solid rgba(243, 206, 0, 0.9);
-    min-height: 118px;
+    min-height: 126px;
 }
 
 .auth-shell .liviase-shell {
@@ -116,8 +116,8 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    width: clamp(84px, 8vw, 124px);
-    height: clamp(84px, 8vw, 124px);
+    width: clamp(82px, 7vw, 104px);
+    height: clamp(82px, 7vw, 104px);
     object-fit: contain;
     object-position: top right;
     pointer-events: none;
@@ -148,8 +148,8 @@ body {
 }
 
 .sanmartin-nav-logo {
-    width: clamp(190px, 20vw, 275px);
-    max-height: 84px;
+    width: clamp(180px, 16vw, 220px);
+    max-height: 62px;
     height: auto;
     object-fit: contain;
 }
