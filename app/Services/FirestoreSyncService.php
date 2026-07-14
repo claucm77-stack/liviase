@@ -36,7 +36,7 @@ class FirestoreSyncService
             'tipo' => $this->normalizeContentType($type),
             'url' => $this->contentUrl($type, $data),
             'imagen' => (string) ($payload['image_url'] ?? ''),
-            'categoria' => $this->contentCategory($type),
+            'categoria' => $this->contentCategory($type, $payload),
             'autorId' => '',
             'fechaCreacion' => optional($content->created_at)?->toIso8601String() ?? now()->toIso8601String(),
             'estado' => $content->status === 'publicado' ? 'activo' : 'inactivo',
@@ -134,8 +134,13 @@ class FirestoreSyncService
         };
     }
 
-    private function contentCategory(string $type): string
+    private function contentCategory(string $type, array $payload = []): string
     {
+        $category = trim((string) ($payload['category'] ?? ''));
+        if ($category !== '') {
+            return $category;
+        }
+
         return match ($type) {
             'video' => 'Repositorio en video',
             'pdf' => 'Artículos Relacionados',
@@ -163,6 +168,7 @@ class FirestoreSyncService
 
         return [
             'type' => $content->type,
+            'category' => $this->contentCategory((string) $content->type),
             'image_url' => '',
             'data' => [
                 'body' => (string) ($content->body ?? ''),

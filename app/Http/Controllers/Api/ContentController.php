@@ -32,7 +32,7 @@ class ContentController extends Controller
                 'tipo' => $this->contentType($type),
                 'url' => $this->contentUrl($type, $metadata),
                 'imagen' => (string) ($payload['image_url'] ?? ''),
-                'categoria' => $this->contentCategory($type),
+                'categoria' => $this->contentCategory($type, $payload),
                 'autorId' => '',
                 'fechaCreacion' => optional($content->created_at)?->toIso8601String(),
                 'estado' => $content->status === 'publicado' ? 'activo' : 'inactivo',
@@ -63,8 +63,13 @@ class ContentController extends Controller
         };
     }
 
-    private function contentCategory(string $type): string
+    private function contentCategory(string $type, array $payload = []): string
     {
+        $category = trim((string) ($payload['category'] ?? ''));
+        if ($category !== '') {
+            return $category;
+        }
+
         return match ($type) {
             'video' => 'Repositorio en video',
             'pdf' => 'Artículos Relacionados',
@@ -92,6 +97,7 @@ class ContentController extends Controller
 
         return [
             'type' => $content->type,
+            'category' => $this->contentCategory((string) $content->type),
             'image_url' => '',
             'data' => [
                 'body' => (string) ($content->body ?? ''),

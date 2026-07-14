@@ -21,6 +21,14 @@ class ContentController extends Controller
         'evento' => 'Evento de cronograma',
     ];
 
+    private const CONTENT_CATEGORIES = [
+        'Conferencia en vivo' => 'Conferencia en vivo',
+        'Repositorio en video' => 'Repositorio en video',
+        'Artículos Populares' => 'Artículos Populares',
+        'Artículos Relacionados' => 'Artículos Relacionados',
+        'Cronograma Actividades' => 'Cronograma Actividades',
+    ];
+
     public function __construct(private readonly FirestoreSyncService $firestore)
     {
     }
@@ -38,6 +46,7 @@ class ContentController extends Controller
     {
         return view('admin.contents.create', [
             'contentTypes' => self::CONTENT_TYPES,
+            'contentCategories' => self::CONTENT_CATEGORIES,
             'bodyData' => [],
         ]);
     }
@@ -75,6 +84,7 @@ class ContentController extends Controller
         return view('admin.contents.edit', [
             'content' => $content,
             'contentTypes' => self::CONTENT_TYPES,
+            'contentCategories' => self::CONTENT_CATEGORIES,
             'bodyData' => $this->decodeBodyPayload($content),
         ]);
     }
@@ -134,6 +144,7 @@ class ContentController extends Controller
             'type' => ['required', Rule::in(array_keys(self::CONTENT_TYPES))],
             'summary' => ['nullable', 'string'],
             'image_url' => ['nullable', 'url', 'max:500'],
+            'category' => ['required', Rule::in(array_keys(self::CONTENT_CATEGORIES))],
             'status' => ['required', 'in:borrador,publicado,archivado'],
             'published_at' => ['nullable', 'date'],
         ]);
@@ -174,6 +185,7 @@ class ContentController extends Controller
         $type = (string) $request->input('type', 'articulo');
         $payload = [
             'type' => $type,
+            'category' => $request->input('category', $this->defaultCategory($type)),
             'image_url' => $request->input('image_url'),
         ];
 
@@ -212,6 +224,7 @@ class ContentController extends Controller
         if (!is_array($decoded) || !isset($decoded['data'])) {
             return [
                 'type' => $content->type,
+                'category' => $this->defaultCategory((string) $content->type),
                 'image_url' => '',
                 'data' => [
                     'body' => (string) ($content->body ?? ''),
@@ -219,7 +232,19 @@ class ContentController extends Controller
             ];
         }
 
+        $decoded['category'] = $decoded['category'] ?? $this->defaultCategory((string) $content->type);
+
         return $decoded;
+    }
+
+    private function defaultCategory(string $type): string
+    {
+        return match ($type) {
+            'video' => 'Repositorio en video',
+            'pdf' => 'Artículos Relacionados',
+            'evento' => 'Cronograma Actividades',
+            default => 'Artículos Populares',
+        };
     }
 
     private function audit(string $action, string $description, string $module, ?array $metadata = null): void

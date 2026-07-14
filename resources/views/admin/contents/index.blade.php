@@ -29,6 +29,7 @@
                         <th class="text-left px-3 py-2 border-b">Título</th>
                         <th class="text-left px-3 py-2 border-b">Slug</th>
                         <th class="text-left px-3 py-2 border-b">Tipo</th>
+                        <th class="text-left px-3 py-2 border-b">Categoría app</th>
                         <th class="text-left px-3 py-2 border-b">Estado</th>
                         <th class="text-left px-3 py-2 border-b">Publicado</th>
                         <th class="text-left px-3 py-2 border-b">Acciones</th>
@@ -36,6 +37,16 @@
                 </thead>
                 <tbody>
                     @forelse ($contents as $item)
+                        @php
+                            $payload = json_decode((string) $item->body, true);
+                            $category = is_array($payload) ? ($payload['category'] ?? null) : null;
+                            $category ??= match ($item->type) {
+                                'video' => 'Repositorio en video',
+                                'pdf' => 'Artículos Relacionados',
+                                'evento' => 'Cronograma Actividades',
+                                default => 'Artículos Populares',
+                            };
+                        @endphp
                         <tr class="border-b">
                             <td class="px-3 py-2">{{ $item->title }}</td>
                             <td class="px-3 py-2">{{ $item->slug }}</td>
@@ -44,6 +55,7 @@
                                     {{ $typeLabels[$item->type] ?? $item->type }}
                                 </span>
                             </td>
+                            <td class="px-3 py-2">{{ $category }}</td>
                             <td class="px-3 py-2">{{ ucfirst($item->status) }}</td>
                             <td class="px-3 py-2">{{ $item->published_at?->format('Y-m-d H:i') ?? '-' }}</td>
                             <td class="px-3 py-2">
@@ -59,7 +71,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-3 py-4 text-center text-gray-500">No hay contenidos registrados.</td>
+                            <td colspan="7" class="px-3 py-4 text-center text-gray-500">No hay contenidos registrados.</td>
                         </tr>
                     @endforelse
                 </tbody>
