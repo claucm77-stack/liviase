@@ -41,6 +41,10 @@ class FirestoreSyncService
             'fechaCreacion' => optional($content->created_at)?->toIso8601String() ?? now()->toIso8601String(),
             'estado' => $content->status === 'publicado' ? 'activo' : 'inactivo',
             'destacado' => false,
+            // La app móvil muestra artículos y descripciones ampliadas desde este
+            // campo. Mantenerlo también en metadata deja compatibilidad con
+            // clientes que consumían el contrato anterior.
+            'contenido' => $this->contentText($type, $data),
             'metadata' => $data,
         ]);
     }
@@ -156,6 +160,16 @@ class FirestoreSyncService
             'pdf' => (string) ($data['pdf_url'] ?? ''),
             'evento' => (string) ($data['registration_url'] ?? ''),
             default => '',
+        };
+    }
+
+    private function contentText(string $type, array $data): string
+    {
+        return match ($type) {
+            'video' => (string) ($data['transcript'] ?? ''),
+            'pdf' => (string) ($data['instructions'] ?? ''),
+            'evento' => (string) ($data['agenda'] ?? ''),
+            default => (string) ($data['body'] ?? ''),
         };
     }
 

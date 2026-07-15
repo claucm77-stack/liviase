@@ -67,8 +67,11 @@ class ContentController extends Controller
             'summary' => $validated['summary'] ?? null,
             'body' => $this->buildBodyPayload($request),
             'status' => $validated['status'],
-            'published_at' => $validated['published_at'] ?? null,
+            // Si el admin marca "publicado" pero no envía publicada_at,
+            // la API filtra/ordena por published_at. Usamos now() como fallback.
+            'published_at' => $this->resolvePublishedAt($request, $validated),
         ]);
+
         $this->firestore->syncContent($content);
         $this->audit('content_created', "Contenido creado: {$content->title}", 'contents', [
             'content_id' => $content->id,
@@ -105,8 +108,10 @@ class ContentController extends Controller
             'summary' => $validated['summary'] ?? null,
             'body' => $this->buildBodyPayload($request),
             'status' => $validated['status'],
-            'published_at' => $validated['published_at'] ?? null,
+            // Igual que en store(): si publican sin publicada_at, usamos fallback.
+            'published_at' => $this->resolvePublishedAt($request, $validated),
         ]);
+
         $this->firestore->syncContent($content);
         $this->audit('content_updated', "Contenido actualizado: {$content->title}", 'contents', [
             'content_id' => $content->id,
@@ -237,6 +242,20 @@ class ContentController extends Controller
         return $decoded;
     }
 
+    private function resolvePublishedAt(Request $request, array $validated): mixed
+    {
+        $status = (string) ($validated['status'] ?? '');
+        $publishedAt = $validated['published_at'] ?? null;
+
+        // Si se marcó como publicado y no se envió published_at, usamos now() para
+        // asegurar que la API pueda ordenar/mostrar consistentemente.
+        if ($status === 'publicado' && empty($publishedAt)) {
+            return now();
+        }
+
+        return $publishedAt;
+    }
+
     private function defaultCategory(string $type): string
     {
         return match ($type) {
@@ -246,6 +265,7 @@ class ContentController extends Controller
             default => 'Artículos Populares',
         };
     }
+
 
     private function audit(string $action, string $description, string $module, ?array $metadata = null): void
     {

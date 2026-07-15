@@ -28,20 +28,26 @@ class ContentController extends Controller
             return [
                 'id' => (string) $content->id,
                 'titulo' => (string) $content->title,
-                'descripcion' => (string) ($content->summary ?? ''),
-                'tipo' => $this->contentType($type),
-                'url' => $this->contentUrl($type, $metadata),
-                'imagen' => (string) ($payload['image_url'] ?? ''),
-                'categoria' => $this->contentCategory($type, $payload),
-                'autorId' => '',
-                'fechaCreacion' => optional($content->created_at)?->toIso8601String(),
-                'estado' => $content->status === 'publicado' ? 'activo' : 'inactivo',
-                'destacado' => false,
-                'favoritos' => [],
-                'vistos' => [],
-                'metadata' => $metadata,
-            ];
+
+                    'descripcion' => (string) ($content->summary ?? ''),
+                    'tipo' => $this->contentType($type),
+                    'url' => $this->contentUrl($type, $metadata),
+                    'imagen' => (string) ($payload['image_url'] ?? ''),
+                    'categoria' => $this->contentCategory($type, $payload),
+                    'autorId' => '',
+                    'fechaCreacion' => optional($content->created_at)?->toIso8601String(),
+                    'estado' => $content->status === 'publicado' ? 'activo' : 'inactivo',
+                    'destacado' => false,
+                    'favoritos' => [],
+                    'vistos' => [],
+                    // Para que la app muestre el contenido completo,
+                    // incluimos el body según el tipo.
+                    'contenido' => $this->extractContentText($type, $metadata),
+                    'metadata' => $metadata,
+                ];
+
         });
+
 
         return response()->json([
             'data' => $data,
@@ -88,9 +94,21 @@ class ContentController extends Controller
         };
     }
 
+    private function extractContentText(string $type, array $metadata): string
+    {
+        // Coincide con buildBodyPayload() del Admin.
+        return match ($type) {
+            'video' => (string) ($metadata['transcript'] ?? ''),
+            'pdf' => (string) ($metadata['instructions'] ?? ''),
+            'evento' => (string) ($metadata['agenda'] ?? ''),
+            default => (string) ($metadata['body'] ?? ''),
+        };
+    }
+
     private function decodePayload(Content $content): array
     {
         $decoded = json_decode((string) $content->body, true);
+
         if (is_array($decoded)) {
             return $decoded;
         }
