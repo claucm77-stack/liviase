@@ -1,0 +1,28 @@
+{{flutter_js}}
+{{flutter_build_config}}
+
+(async function () {
+  if ('serviceWorker' in navigator) {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(registrations.map((registration) => registration.unregister()));
+  }
+
+  if ('caches' in window) {
+    const keys = await caches.keys();
+    await Promise.all(keys.map((key) => caches.delete(key)));
+  }
+
+  const cacheKey = new URLSearchParams(window.location.search).get('v') || Date.now().toString();
+  _flutter.buildConfig.builds = _flutter.buildConfig.builds.map((build) => {
+    if (!build.mainJsPath) {
+      return build;
+    }
+
+    return {
+      ...build,
+      mainJsPath: `${build.mainJsPath}?v=${encodeURIComponent(cacheKey)}`,
+    };
+  });
+
+  _flutter.loader.load();
+})();

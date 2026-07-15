@@ -1,0 +1,143 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc(uid) {
+      return get(/databases/$(database)/documents/users/$(uid));
+    }
+
+    function role() {
+      return signedIn() && userDoc(request.auth.uid).data.rol is string
+        ? userDoc(request.auth.uid).data.rol
+        : '';
+    }
+
+    function normalizedRole() {
+      return role() == 'admin' ? 'admin_ti'
+        : role() == 'educador' ? 'docente'
+        : role() == 'usuario' ? 'microempresario'
+        : role();
+    }
+
+    function isAdmin() {
+      return normalizedRole() in ['admin_ti', 'docente_admin'];
+    }
+
+    function isEducator() {
+      return normalizedRole() == 'docente';
+    }
+
+    function isOwner(ownerId) {
+      return signedIn() && ownerId == request.auth.uid;
+    }
+
+    function isActiveResource() {
+      return resource.data.estado == 'activo';
+    }
+
+    function isActiveRequest() {
+      return request.resource.data.estado == 'activo';
+    }
+
+    function onlyEngagementUpdate() {
+      return request.resource.data.diff(resource.data).affectedKeys()
+        .hasOnly(['favoritos', 'ratingPromedio', 'totalCalificaciones']);
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow create, update: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow delete: if isAdmin() && request.auth.uid != uid;
+    }
+
+    match /micronegocios/{businessId} {
+      allow read: if signedIn() && (isAdmin() || isOwner(resource.data.propietarioId) || isActiveResource());
+      allow create: if signedIn()
+        && request.resource.data.propietarioId == request.auth.uid
+        && (isAdmin() || isEducator() || normalizedRole() == 'microempresario');
+      allow update: if signedIn()
+        && (
+          (
+            (isAdmin() || isOwner(resource.data.propietarioId) || (isEducator() && isOwner(resource.data.propietarioId)))
+            && request.resource.data.propietarioId == resource.data.propietarioId
+          )
+          || (isActiveResource() && onlyEngagementUpdate())
+        );
+      allow delete: if signedIn()
+        && (isAdmin() || (normalizedRole() == 'microempresario' && isOwner(resource.data.propietarioId)));
+    }
+
+    match /contenidos/{contentId} {
+      allow read: if signedIn() && (isAdmin() || isActiveResource());
+      allow create, update, delete: if signedIn() && isAdmin();
+    }
+
+    match /entidades/{entityId} {
+      allow read: if signedIn();
+      allow create, update, delete: if signedIn() && isAdmin();
+    }
+
+    match /categorias/{categoryId} {
+      allow read: if signedIn();
+      allow create, update, delete: if signedIn() && isAdmin();
+    }
+
+    match /logs/{logId} {
+      allow read: if signedIn() && isAdmin();
+      allow create: if signedIn();
+      allow update, delete: if false;
+    }
+
+    match /forum_topics/{topicId} {
+      allow read, create: if signedIn() && normalizedRole() in ['microempresario', 'docente', 'docente_admin'];
+      allow update: if signedIn() && (isEducator() || normalizedRole() == 'docente_admin');
+      allow delete: if signedIn() && isAdmin();
+
+      match /replies/{replyId} {
+        allow read: if signedIn();
+        allow create: if signedIn() && (isEducator() || normalizedRole() == 'docente_admin');
+        allow update, delete: if false;
+      }
+    }
+
+    match /teacher_ratings/{ratingId} {
+      allow read: if signedIn();
+      allow create, update: if signedIn()
+        && normalizedRole() == 'microempresario'
+        && request.resource.data.userId == request.auth.uid;
+      allow delete: if false;
+    }
+
+    match /event_ratings/{ratingId} {
+      allow read: if signedIn();
+      allow create, update: if signedIn()
+        && normalizedRole() == 'microempresario'
+        && request.resource.data.userId == request.auth.uid;
+      allow delete: if false;
+    }
+
+    match /teacher_chats/{conversationId} {
+      allow read, update, delete: if signedIn()
+        && request.auth.uid in resource.data.participants;
+      allow create: if signedIn()
+        && request.auth.uid in request.resource.data.participants;
+
+      match /messages/{messageId} {
+        allow read: if signedIn()
+          && request.auth.uid in get(/databases/$(database)/documents/teacher_chats/$(conversationId)).data.participants;
+        allow create: if signedIn()
+          && request.resource.data.senderId == request.auth.uid
+          && request.auth.uid in get(/databases/$(database)/documents/teacher_chats/$(conversationId)).data.participants;
+        allow update, delete: if false;
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

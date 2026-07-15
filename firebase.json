@@ -1,0 +1,30 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "liviase-af055",
+          "appId": "1:448369198333:android:e260e592f2d0311f41ea94",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "liviase-af055",
+          "configurations": {
+            "android": "1:448369198333:android:e260e592f2d0311f41ea94",
+            "web": "1:1036525008938:web:669b50ee0aef69dda76b53",
+            "windows": "1:1036525008938:web:251ccef4ebfea03da76b53"
+          }
+        }
+      }
+    }
+  }
+}

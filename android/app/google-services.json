@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "448369198333",
+    "project_id": "liviase-af055",
+    "storage_bucket": "liviase-af055.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448369198333:android:e260e592f2d0311f41ea94",
+        "android_client_info": {
+          "package_name": "co.edu.sanmartin.liviase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448369198333-imkskg7m3nvkn2nv5chubulsonq0tqik.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.edu.sanmartin.liviase",
+            "certificate_hash": "5fac68a766d38c9dca65d9b8de3e2a15ff1ab8f1"
+          }
+        },
+        {
+          "client_id": "448369198333-sgamsri2i0e513gianjjtc2nju22t5l4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.edu.sanmartin.liviase",
+            "certificate_hash": "aaaba5b589e2c1af4fb0a08ecfb3f7e815fc08e8"
+          }
+        },
+        {
+          "client_id": "448369198333-mmj7ugk0ambhi9i9libmv30g29cg0v6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNK-cNpu-eXabj0qB_Vqm488fHQbcvB54"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448369198333-mmj7ugk0ambhi9i9libmv30g29cg0v6a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
