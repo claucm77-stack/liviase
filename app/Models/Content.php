@@ -12,6 +12,7 @@ class Content extends Model
         'type',
         'summary',
         'body',
+        'content_category_id',
         'status',
         'published_at',
     ];
@@ -19,4 +20,9 @@ class Content extends Model
     protected $casts = [
         'published_at' => 'datetime',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(ContentCategory::class, 'content_category_id');
+    }
 }

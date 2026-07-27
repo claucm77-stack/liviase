@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\PasswordController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\SessionController;
 use App\Http\Controllers\Api\ContentController;
+use App\Http\Controllers\Api\ContentCategoryController;
 use App\Http\Controllers\Api\MicrobusinessFieldController;
 use App\Http\Controllers\Api\UserController;
 use App\Constants\Roles;
@@ -56,4 +57,5 @@ Route::middleware(['auth:sanctum', 'role:' . Roles::ADMIN_TI . ',' . Roles::LEGA
 |--------------------------------------------------------------------------
 */
 Route::get('/contents', [ContentController::class, 'index'])->name('api.contents.index');
+Route::get('/content-categories', [ContentCategoryController::class, 'index'])->name('api.content-categories.index');
 Route::get('/microbusiness-fields', [MicrobusinessFieldController::class, 'index'])->name('api.microbusiness-fields.index');

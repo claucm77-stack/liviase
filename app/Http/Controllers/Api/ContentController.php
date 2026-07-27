@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Content;
+use Illuminate\Support\Arr;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -25,27 +26,28 @@ class ContentController extends Controller
             $metadata = $payload['data'] ?? [];
             $type = (string) ($content->type ?? 'articulo');
 
+            $categoria = $content->category?->name;
+
             return [
                 'id' => (string) $content->id,
                 'titulo' => (string) $content->title,
-
-                    'descripcion' => (string) ($content->summary ?? ''),
-                    'tipo' => $this->contentType($type),
-                    'url' => $this->contentUrl($type, $metadata),
-                    'imagen' => (string) ($payload['image_url'] ?? ''),
-                    'categoria' => $this->contentCategory($type, $payload),
-                    'autorId' => '',
-                    'fechaCreacion' => optional($content->created_at)?->toIso8601String(),
-                    'estado' => $content->status === 'publicado' ? 'activo' : 'inactivo',
-                    'destacado' => false,
-                    'favoritos' => [],
-                    'vistos' => [],
-                    // Para que la app muestre el contenido completo,
-                    // incluimos el body según el tipo.
-                    'contenido' => $this->extractContentText($type, $metadata),
-                    'metadata' => $metadata,
-                ];
-
+                'descripcion' => (string) ($content->summary ?? ''),
+                'tipo' => $this->contentType($type),
+                'url' => $this->contentUrl($type, $metadata),
+                'imagen' => (string) ($payload['image_url'] ?? ''),
+                'categoria' => is_string($categoria) && trim($categoria) !== '' ? $categoria : (string) Arr::get($payload, 'category', ''),
+                'autorId' => (string) ($content->author_id ?? ''),
+                'autorNombre' => $this->contentAuthorName($content, $metadata),
+                'fechaCreacion' => optional($content->created_at)?->toIso8601String(),
+                'estado' => $content->status === 'publicado' ? 'activo' : 'inactivo',
+                'destacado' => false,
+                'favoritos' => [],
+                'vistos' => [],
+                // Para que la app muestre el contenido completo,
+                // incluimos el body según el tipo.
+                'contenido' => $this->extractContentText($type, $metadata),
+                'metadata' => $metadata,
+            ];
         });
 
 
@@ -65,24 +67,25 @@ class ContentController extends Controller
         return match ($type) {
             'video' => 'video',
             'pdf' => 'pdf',
+            'evento' => 'evento',
             default => 'texto',
         };
     }
 
-    private function contentCategory(string $type, array $payload = []): string
+    private function contentAuthorName(Content $content, array $metadata): string
     {
-        $category = trim((string) ($payload['category'] ?? ''));
-        if ($category !== '') {
-            return $category;
-        }
+        $name = trim((string) ($metadata['author_name'] ?? ''));
+        if ($name !== '') return $name;
 
-        return match ($type) {
-            'video' => 'Repositorio en video',
-            'pdf' => 'Artículos Relacionados',
-            'evento' => 'Cronograma Actividades',
-            default => 'Artículos Populares',
-        };
+        $authorId = trim((string) ($content->author_id ?? ''));
+        if ($authorId === '') return '';
+
+        return (string) (\App\Models\User::query()
+            ->where('firebase_uid', $authorId)
+            ->orWhere(fn ($query) => ctype_digit($authorId) ? $query->whereKey((int) $authorId) : $query->whereRaw('1 = 0'))
+            ->value('name') ?? '');
     }
+
 
     private function contentUrl(string $type, array $metadata): string
     {
@@ -115,7 +118,7 @@ class ContentController extends Controller
 
         return [
             'type' => $content->type,
-            'category' => $this->contentCategory((string) $content->type),
+            'category' => (string) ($content->category?->name ?? ''),
             'image_url' => '',
             'data' => [
                 'body' => (string) ($content->body ?? ''),

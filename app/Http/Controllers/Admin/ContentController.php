@@ -44,9 +44,15 @@ class ContentController extends Controller
 
     public function create(): View
     {
+        $categories = \App\Models\ContentCategory::query()
+            ->orderBy('name')
+            ->get()
+            ->mapWithKeys(fn ($c) => [$c->id => $c->name])
+            ->all();
+
         return view('admin.contents.create', [
             'contentTypes' => self::CONTENT_TYPES,
-            'contentCategories' => self::CONTENT_CATEGORIES,
+            'contentCategories' => $categories,
             'bodyData' => [],
         ]);
     }
@@ -65,6 +71,7 @@ class ContentController extends Controller
             'slug' => $slug,
             'type' => $validated['type'],
             'summary' => $validated['summary'] ?? null,
+            'content_category_id' => (int) $validated['category_id'],
             'body' => $this->buildBodyPayload($request),
             'status' => $validated['status'],
             // Si el admin marca "publicado" pero no envía publicada_at,
@@ -84,10 +91,16 @@ class ContentController extends Controller
 
     public function edit(Content $content): View
     {
+        $categories = \App\Models\ContentCategory::query()
+            ->orderBy('name')
+            ->get()
+            ->mapWithKeys(fn ($c) => [$c->id => $c->name])
+            ->all();
+
         return view('admin.contents.edit', [
             'content' => $content,
             'contentTypes' => self::CONTENT_TYPES,
-            'contentCategories' => self::CONTENT_CATEGORIES,
+            'contentCategories' => $categories,
             'bodyData' => $this->decodeBodyPayload($content),
         ]);
     }
@@ -106,6 +119,7 @@ class ContentController extends Controller
             'slug' => $slug,
             'type' => $validated['type'],
             'summary' => $validated['summary'] ?? null,
+            'content_category_id' => (int) $validated['category_id'],
             'body' => $this->buildBodyPayload($request),
             'status' => $validated['status'],
             // Igual que en store(): si publican sin publicada_at, usamos fallback.
@@ -149,15 +163,15 @@ class ContentController extends Controller
             'type' => ['required', Rule::in(array_keys(self::CONTENT_TYPES))],
             'summary' => ['nullable', 'string'],
             'image_url' => ['nullable', 'url', 'max:500'],
-            'category' => ['required', Rule::in(array_keys(self::CONTENT_CATEGORIES))],
+            'category_id' => ['required', 'integer', 'exists:content_categories,id'],
             'status' => ['required', 'in:borrador,publicado,archivado'],
             'published_at' => ['nullable', 'date'],
+            'author_name' => ['nullable', 'string', 'max:180'],
         ]);
 
         $specificRules = match ($validated['type']) {
             'articulo' => [
                 'article_body' => ['required', 'string'],
-                'author_name' => ['nullable', 'string', 'max:180'],
                 'reading_time' => ['nullable', 'integer', 'min:1', 'max:240'],
             ],
             'video' => [
@@ -190,7 +204,8 @@ class ContentController extends Controller
         $type = (string) $request->input('type', 'articulo');
         $payload = [
             'type' => $type,
-            'category' => $request->input('category', $this->defaultCategory($type)),
+            'category_id' => (int) $request->input('category_id'),
+            'category' => $this->resolveCategoryName((int) $request->input('category_id')),
             'image_url' => $request->input('image_url'),
         ];
 
@@ -219,6 +234,7 @@ class ContentController extends Controller
                 'reading_time' => $request->input('reading_time'),
             ],
         };
+        $payload['data']['author_name'] = $request->input('author_name');
 
         return json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
@@ -229,7 +245,8 @@ class ContentController extends Controller
         if (!is_array($decoded) || !isset($decoded['data'])) {
             return [
                 'type' => $content->type,
-                'category' => $this->defaultCategory((string) $content->type),
+                'category_id' => $content->content_category_id,
+                'category' => $content->category?->name ?? $this->defaultCategory((string) $content->type),
                 'image_url' => '',
                 'data' => [
                     'body' => (string) ($content->body ?? ''),
@@ -237,7 +254,8 @@ class ContentController extends Controller
             ];
         }
 
-        $decoded['category'] = $decoded['category'] ?? $this->defaultCategory((string) $content->type);
+        $decoded['category_id'] = $decoded['category_id'] ?? $content->content_category_id;
+        $decoded['category'] = $decoded['category'] ?? ($content->category?->name ?? $this->defaultCategory((string) $content->type));
 
         return $decoded;
     }
@@ -264,6 +282,17 @@ class ContentController extends Controller
             'evento' => 'Cronograma Actividades',
             default => 'Artículos Populares',
         };
+    }
+
+    private function resolveCategoryName(int $categoryId): string
+    {
+        $category = \App\Models\ContentCategory::query()->find($categoryId);
+
+        if (!$category) {
+            return '';
+        }
+
+        return (string) $category->name;
     }
 
 
